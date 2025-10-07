@@ -57,25 +57,19 @@ export function TransliteratePage() {
       if (sourceScript === 'auto') {
         actualSourceScript = detectScript(inputText);
         if (!actualSourceScript) {
-          // Default to ITRANS for English/romanized input
           actualSourceScript = 'itrans';
         }
       }
 
-      // Convert through ITRANS if needed
-      let result;
-      if (actualSourceScript === 'itrans') {
-        result = Sanscript.t(inputText, 'itrans', targetScript);
-      } else if (targetScript === 'itrans') {
-        result = Sanscript.t(inputText, actualSourceScript, 'itrans');
-      } else {
-        // Convert via ITRANS intermediate
-        const intermediate = Sanscript.t(inputText, actualSourceScript, 'itrans');
-        result = Sanscript.t(intermediate, 'itrans', targetScript);
-      }
+      // Direct transliteration using Sanscript
+      const result = Sanscript.t(inputText, actualSourceScript, targetScript);
       
       setOutputText(result);
-      toast.success(`Transliterated from ${actualSourceScript === 'itrans' ? 'Romanized' : SCRIPT_INVENTORY[actualSourceScript]?.name} to ${targetScript === 'itrans' ? 'Romanized' : SCRIPT_INVENTORY[targetScript]?.name}`);
+      
+      const sourceName = actualSourceScript === 'itrans' ? 'Romanized' : SCRIPT_INVENTORY[actualSourceScript]?.name;
+      const targetName = targetScript === 'itrans' ? 'Romanized' : SCRIPT_INVENTORY[targetScript]?.name;
+      
+      toast.success(`Transliterated from ${sourceName} to ${targetName}`);
     } catch (error) {
       console.error("Transliteration error:", error);
       toast.error("Transliteration failed. Please try again.");
@@ -279,13 +273,40 @@ export function TransliteratePage() {
                 </CardHeader>
                 <CardContent>
                   <Textarea
-                    placeholder="Enter text in any Indian script..."
+                    placeholder="Type: namaste, bharat, ram, krishna, ganga..."
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     className="min-h-[200px] text-lg resize-none"
                   />
-                  <div className="mt-2 text-sm text-gray-500">
-                    Characters: {inputText.length}
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setInputText("namaste")}
+                    >
+                      namaste
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setInputText("bharat")}
+                    >
+                      bharat
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setInputText("krishna")}
+                    >
+                      krishna
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setInputText("ganga")}
+                    >
+                      ganga
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
