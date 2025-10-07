@@ -61,10 +61,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-orange-100 via-white to-green-100 py-20 px-4">
         <div className="container mx-auto max-w-6xl text-center">
-          <Badge className="bg-orange-100 text-orange-800 px-6 py-3 text-lg mb-8 border border-orange-200">
-            🏆 SIH 2024 Winner Project
-          </Badge>
-          
           <h1 className="text-6xl md:text-8xl font-bold mb-6">
             <span className="bg-gradient-to-r from-orange-600 via-red-500 to-green-600 bg-clip-text text-transparent">
               भारत लिपि पुल
