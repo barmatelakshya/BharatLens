@@ -20,16 +20,19 @@ import { TTSControls, QuickTTSButton } from '@/components/TTSControls';
 import { toast } from 'sonner';
 import Sanscript from '@indic-transliteration/sanscript';
 
-const scripts = Object.entries(SCRIPT_INVENTORY).map(([key, info]) => ({
-  value: key,
-  label: info.name
-}));
+const scripts = [
+  { value: 'itrans', label: 'Romanized (ITRANS)' },
+  ...Object.entries(SCRIPT_INVENTORY).map(([key, info]) => ({
+    value: key,
+    label: info.name
+  }))
+];
 
 export function TransliteratePage() {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [sourceScript, setSourceScript] = useState("devanagari");
-  const [targetScript, setTargetScript] = useState("tamil");
+  const [sourceScript, setSourceScript] = useState("itrans");
+  const [targetScript, setTargetScript] = useState("devanagari");
   const [copied, setCopied] = useState(false);
   const [isTransliterating, setIsTransliterating] = useState(false);
   const [autoDetect, setAutoDetect] = useState(true);
@@ -41,17 +44,57 @@ export function TransliteratePage() {
       return;
     }
 
+    if (sourceScript === targetScript) {
+      toast.error("Please select different source and target scripts");
+      return;
+    }
+
     setIsTransliterating(true);
     try {
-      const result = Sanscript.t(inputText, sourceScript, targetScript);
+      let actualSourceScript = sourceScript;
+      
+      // Auto-detect source script if needed
+      if (sourceScript === 'auto') {
+        actualSourceScript = detectScript(inputText);
+        if (!actualSourceScript) {
+          // Default to ITRANS for English/romanized input
+          actualSourceScript = 'itrans';
+        }
+      }
+
+      // Convert through ITRANS if needed
+      let result;
+      if (actualSourceScript === 'itrans') {
+        result = Sanscript.t(inputText, 'itrans', targetScript);
+      } else if (targetScript === 'itrans') {
+        result = Sanscript.t(inputText, actualSourceScript, 'itrans');
+      } else {
+        // Convert via ITRANS intermediate
+        const intermediate = Sanscript.t(inputText, actualSourceScript, 'itrans');
+        result = Sanscript.t(intermediate, 'itrans', targetScript);
+      }
+      
       setOutputText(result);
-      toast.success(`Transliterated from ${SCRIPT_INVENTORY[sourceScript].name} to ${SCRIPT_INVENTORY[targetScript].name}`);
+      toast.success(`Transliterated from ${actualSourceScript === 'itrans' ? 'Romanized' : SCRIPT_INVENTORY[actualSourceScript]?.name} to ${targetScript === 'itrans' ? 'Romanized' : SCRIPT_INVENTORY[targetScript]?.name}`);
     } catch (error) {
       console.error("Transliteration error:", error);
       toast.error("Transliteration failed. Please try again.");
     } finally {
       setIsTransliterating(false);
     }
+  };
+
+  const detectScript = (text: string): string | null => {
+    for (const [scriptKey, scriptInfo] of Object.entries(SCRIPT_INVENTORY)) {
+      const [start, end] = scriptInfo.unicodeRange;
+      for (const char of text) {
+        const code = char.codePointAt(0);
+        if (code && code >= start && code <= end) {
+          return scriptKey;
+        }
+      }
+    }
+    return null;
   };
 
   const handleCopy = async () => {
