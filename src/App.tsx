@@ -8,6 +8,7 @@ import { HomePage } from "@/pages/HomePage";
 import { TransliteratePage } from "@/pages/TransliteratePage";
 import { AboutPage } from "@/pages/AboutPage";
 import { SettingsPage } from "@/pages/SettingsPage";
+import { FeatureTestPage } from "@/pages/FeatureTestPage";
 import { CameraCapture } from "@/components/CameraCapture";
 import { MultiLanguageAROverlay } from "@/components/MultiLanguageAROverlay";
 import { EnhancedFeaturesPanel } from "@/components/EnhancedFeaturesPanel";
@@ -114,6 +115,9 @@ const App = () => {
       
       case 'settings':
         return <SettingsPage />;
+      
+      case 'test':
+        return <FeatureTestPage />;
       
       default:
         return <HomePage onNavigate={handleNavigate} />;
