@@ -244,3 +244,33 @@ export class SmartContextEngine {
 }
 
 export const smartContextEngine = new SmartContextEngine();
+
+// Analyze context function for feature testing
+export function analyzeContext(text: string): {
+  category: string;
+  confidence: number;
+  detectedTerms: string[];
+} {
+  const normalizedText = text.toLowerCase();
+  const detectedTerms: string[] = [];
+  let highestPriority = 0;
+  let primaryCategory = 'unknown';
+
+  for (const term of CONTEXTUAL_DICTIONARY) {
+    if (normalizedText.includes(term.term.toLowerCase())) {
+      detectedTerms.push(term.term);
+      if (term.priority > highestPriority) {
+        highestPriority = term.priority;
+        primaryCategory = term.category;
+      }
+    }
+  }
+
+  const confidence = detectedTerms.length > 0 ? Math.min(0.9, 0.6 + (detectedTerms.length * 0.1)) : 0;
+
+  return {
+    category: primaryCategory,
+    confidence,
+    detectedTerms
+  };
+}

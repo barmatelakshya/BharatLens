@@ -214,3 +214,46 @@ export class EmergencyModeEngine {
 }
 
 export const emergencyModeEngine = new EmergencyModeEngine();
+
+// Detect emergency terms function for feature testing
+export function detectEmergencyTerms(text: string, script: string = 'romanization'): {
+  detected: boolean;
+  terms: string[];
+  severity: 'critical' | 'high' | 'medium' | 'none';
+  alerts: EmergencyAlert[];
+} {
+  const normalizedText = text.toLowerCase();
+  const detectedTerms: string[] = [];
+  let highestSeverity: 'critical' | 'high' | 'medium' | 'none' = 'none';
+
+  // Check each emergency category
+  for (const [category, scriptKeywords] of Object.entries(EMERGENCY_KEYWORDS)) {
+    const keywords = scriptKeywords[script] || [];
+    
+    for (const keyword of keywords) {
+      if (normalizedText.includes(keyword.toLowerCase())) {
+        detectedTerms.push(keyword);
+        
+        // Determine severity based on category
+        if (category === 'danger' || category === 'emergency' || category === 'fire') {
+          highestSeverity = 'critical';
+        } else if (category === 'evacuation' && highestSeverity !== 'critical') {
+          highestSeverity = 'high';
+        } else if (highestSeverity === 'none') {
+          highestSeverity = 'medium';
+        }
+      }
+    }
+  }
+
+  // Generate alerts if terms detected
+  const alerts = detectedTerms.length > 0 ? 
+    emergencyModeEngine.scanForEmergencyTerms(text, script) : [];
+
+  return {
+    detected: detectedTerms.length > 0,
+    terms: detectedTerms,
+    severity: highestSeverity,
+    alerts
+  };
+}
