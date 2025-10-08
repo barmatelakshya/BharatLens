@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { Camera, Square, Upload } from 'lucide-react';
+import { Camera, Square, Upload, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
@@ -13,16 +13,32 @@ export function CameraCapture({ onCapture }: CameraCaptureProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const checkCameraPermission = async () => {
+    try {
+      const result = await navigator.permissions.query({ name: 'camera' as PermissionName });
+      return result.state === 'granted';
+    } catch {
+      return false;
+    }
+  };
 
   const startCamera = async () => {
     try {
+      setError(null);
       console.log('Requesting camera access...');
       
+      // Check if camera is available
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera not supported on this device');
+      }
+
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: 'environment',
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
+          width: { ideal: 1280, min: 640 },
+          height: { ideal: 720, min: 480 }
         }
       });
 
@@ -30,14 +46,35 @@ export function CameraCapture({ onCapture }: CameraCaptureProps) {
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
-        videoRef.current.play();
-        setStream(mediaStream);
-        setIsStreaming(true);
-        toast.success('Camera started!');
+        
+        // Wait for video to be ready
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play().then(() => {
+            setStream(mediaStream);
+            setIsStreaming(true);
+            toast.success('Camera started!');
+          }).catch((playErr) => {
+            console.error('Video play error:', playErr);
+            toast.error('Failed to start video playback');
+          });
+        };
       }
     } catch (err: any) {
       console.error('Camera error:', err);
-      toast.error(`Camera failed: ${err.message}`);
+      let errorMessage = 'Camera access failed';
+      
+      if (err.name === 'NotAllowedError') {
+        errorMessage = 'Camera permission denied. Please allow camera access and try again.';
+      } else if (err.name === 'NotFoundError') {
+        errorMessage = 'No camera found on this device.';
+      } else if (err.name === 'NotReadableError') {
+        errorMessage = 'Camera is already in use by another application.';
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -48,10 +85,15 @@ export function CameraCapture({ onCapture }: CameraCaptureProps) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     
+    if (!ctx) {
+      toast.error('Canvas not supported');
+      return;
+    }
+    
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     
-    ctx?.drawImage(video, 0, 0);
+    ctx.drawImage(video, 0, 0);
     
     canvas.toBlob((blob) => {
       if (blob) {
@@ -67,6 +109,7 @@ export function CameraCapture({ onCapture }: CameraCaptureProps) {
       stream.getTracks().forEach(track => track.stop());
       setStream(null);
       setIsStreaming(false);
+      setError(null);
       if (videoRef.current) {
         videoRef.current.srcObject = null;
       }
@@ -92,6 +135,13 @@ export function CameraCapture({ onCapture }: CameraCaptureProps) {
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-4">
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
+          <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
+          <p className="text-red-700 text-sm">{error}</p>
+        </div>
+      )}
+      
       {!isStreaming ? (
         <div className="space-y-4">
           <Button 
