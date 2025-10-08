@@ -14,84 +14,58 @@ export function CameraCapture({ onCapture }: CameraCaptureProps) {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const checkCameraPermission = async () => {
-    try {
-      const result = await navigator.permissions.query({ name: 'camera' as PermissionName });
-      return result.state === 'granted';
-    } catch {
-      return false;
-    }
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   const startCamera = async () => {
+    setIsLoading(true);
+    setError(null);
+    
     try {
-      setError(null);
-      console.log('Requesting camera access...');
+      console.log('Starting camera...');
       
-      // Check if camera is available
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Camera not supported on this device');
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error('Camera not supported');
       }
 
+      // Simple camera request
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: 'environment',
-          width: { ideal: 1280, min: 640 },
-          height: { ideal: 720, min: 480 }
-        }
+        video: true
       });
 
-      console.log('Camera access granted');
+      console.log('Got media stream');
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        videoRef.current.muted = true;
+        videoRef.current.playsInline = true;
         
-        // Wait for video to be ready
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play().then(() => {
-            setStream(mediaStream);
-            setIsStreaming(true);
-            toast.success('Camera started!');
-          }).catch((playErr) => {
-            console.error('Video play error:', playErr);
-            toast.error('Failed to start video playback');
-          });
-        };
+        // Simple play without waiting for metadata
+        videoRef.current.play();
+        
+        setStream(mediaStream);
+        setIsStreaming(true);
+        toast.success('Camera opened!');
       }
     } catch (err: any) {
       console.error('Camera error:', err);
-      let errorMessage = 'Camera access failed';
-      
-      if (err.name === 'NotAllowedError') {
-        errorMessage = 'Camera permission denied. Please allow camera access and try again.';
-      } else if (err.name === 'NotFoundError') {
-        errorMessage = 'No camera found on this device.';
-      } else if (err.name === 'NotReadableError') {
-        errorMessage = 'Camera is already in use by another application.';
-      } else if (err.message) {
-        errorMessage = err.message;
-      }
-      
-      setError(errorMessage);
-      toast.error(errorMessage);
+      setError(`Camera failed: ${err.message || 'Unknown error'}`);
+      toast.error('Camera failed to open');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const captureImage = () => {
-    if (!videoRef.current || !canvasRef.current) return;
+    if (!videoRef.current || !canvasRef.current || !isStreaming) return;
     
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     
-    if (!ctx) {
-      toast.error('Canvas not supported');
-      return;
-    }
+    if (!ctx) return;
     
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
     
     ctx.drawImage(video, 0, 0);
     
@@ -146,11 +120,12 @@ export function CameraCapture({ onCapture }: CameraCaptureProps) {
         <div className="space-y-4">
           <Button 
             onClick={startCamera} 
+            disabled={isLoading}
             size="lg" 
             className="w-full h-16 text-lg"
           >
             <Camera className="mr-3 h-6 w-6" />
-            Open Camera
+            {isLoading ? 'Opening Camera...' : 'Open Camera'}
           </Button>
           
           <div className="text-center text-gray-500">or</div>
