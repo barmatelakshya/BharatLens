@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   Home, 
   Type, 
@@ -68,11 +67,8 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
             })}
           </div>
 
-          {/* Status Badge */}
+          {/* Settings Button */}
           <div className="hidden md:flex items-center space-x-3">
-            <Badge className="bg-green-500 text-white border-0">
-              🟢 SIH 2024 Ready
-            </Badge>
             <Button 
               variant="ghost" 
               size="sm" 
@@ -123,12 +119,6 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                   </Button>
                 );
               })}
-            </div>
-            
-            <div className="mt-4 pt-4 border-t border-white/20">
-              <Badge className="bg-green-500 text-white border-0 w-full justify-center">
-                🟢 SIH 2024 Ready
-              </Badge>
             </div>
           </div>
         )}

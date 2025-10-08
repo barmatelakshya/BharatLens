@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
-  Award, 
   Users, 
   Globe, 
   Shield, 
@@ -41,11 +40,6 @@ export function AboutPage() {
   ];
 
   const achievements = [
-    {
-      icon: Award,
-      title: "SIH 2024 Ready",
-      description: "Complete implementation of all required features"
-    },
     {
       icon: CheckCircle,
       title: "100% Feature Complete",
