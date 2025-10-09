@@ -27,18 +27,6 @@ export function AboutPage() {
     }
   ];
 
-  const technologies = [
-    { name: "React 18", category: "Frontend" },
-    { name: "TypeScript", category: "Language" },
-    { name: "Tailwind CSS", category: "Styling" },
-    { name: "Vite", category: "Build Tool" },
-    { name: "Sanscript.js", category: "Transliteration" },
-    { name: "Tesseract.js", category: "OCR" },
-    { name: "Web Speech API", category: "TTS" },
-    { name: "PWA", category: "Mobile" },
-    { name: "Capacitor", category: "Native Apps" }
-  ];
-
   const achievements = [
     {
       icon: CheckCircle,
@@ -67,25 +55,12 @@ export function AboutPage() {
             🏆 About Our Project
           </Badge>
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Bharat Script Bridge
+            BHARATLENS
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Revolutionizing Indian language accessibility through AI-powered transliteration
           </p>
         </div>
-
-        {/* Mission Statement */}
-        <Card className="mb-12 border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-blue-50">
-          <CardContent className="p-8 text-center">
-            <Heart className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Our Mission</h2>
-            <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              To bridge the linguistic divide across India by providing seamless, accurate, and culturally 
-              sensitive transliteration between all Indian scripts. We believe that language should never 
-              be a barrier to accessing information, navigating spaces, or connecting with others.
-            </p>
-          </CardContent>
-        </Card>
 
         {/* Key Features */}
         <div className="mb-12">
@@ -112,26 +87,6 @@ export function AboutPage() {
             })}
           </div>
         </div>
-
-        {/* Technology Stack */}
-        <Card className="mb-12">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center flex items-center justify-center gap-2">
-              <Zap className="h-6 w-6 text-yellow-500" />
-              Technology Stack
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {technologies.map((tech, index) => (
-                <div key={index} className="text-center p-4 border rounded-lg hover:bg-gray-50">
-                  <div className="font-semibold text-gray-800">{tech.name}</div>
-                  <div className="text-sm text-gray-600">{tech.category}</div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Team */}
         <Card className="mb-12">
@@ -181,38 +136,6 @@ export function AboutPage() {
                 <h3 className="font-semibold mb-2">Safety</h3>
                 <p className="text-sm text-gray-700">Emergency sign detection saves lives</p>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recognition */}
-        <Card className="border-yellow-200 bg-yellow-50">
-          <CardContent className="p-8 text-center">
-            <Star className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4 text-yellow-800">
-              SIH 2024 Competition
-            </h2>
-            <p className="text-lg text-yellow-700 mb-6">
-              This project was developed for Smart India Hackathon 2024, showcasing innovation 
-              in language technology and cultural sensitivity.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                variant="outline" 
-                className="border-yellow-500 text-yellow-700 hover:bg-yellow-100"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                View Source Code
-              </Button>
-              
-              <Button 
-                variant="outline"
-                className="border-yellow-500 text-yellow-700 hover:bg-yellow-100"
-              >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                Project Documentation
-              </Button>
             </div>
           </CardContent>
         </Card>

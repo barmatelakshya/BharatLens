@@ -24,7 +24,7 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { id: 'home', label: 'Home', icon: Home },
     { id: 'transliterate', label: 'Transliterate', icon: Type },
     { id: 'camera', label: 'Camera OCR', icon: Camera },
-    { id: 'multi-ar', label: 'Multi-Lang AR', icon: Eye },
+
     { id: 'features', label: 'SIH Features', icon: Zap },
     { id: 'about', label: 'About', icon: Globe }
   ];
@@ -35,12 +35,12 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
         <div className="flex items-center justify-between h-16">
           
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="text-2xl">🇮🇳</div>
-            <div className="text-white">
-              <h1 className="text-xl font-bold">भारत लिपि पुल</h1>
-              <p className="text-xs opacity-90">Bharat Script Bridge</p>
-            </div>
+          <div className="flex items-center py-2">
+            <img 
+              src="/bharatlens-logo-min.png" 
+              alt="BharatLens" 
+              className="h-12 w-auto object-contain max-w-[200px] filter brightness-110"
+            />
           </div>
 
           {/* Desktop Navigation */}

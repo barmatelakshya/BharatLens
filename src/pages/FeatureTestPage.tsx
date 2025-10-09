@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { ttsEngine } from '@/lib/enhancedTTS';
-import { detectEmergencyTerms } from '@/lib/emergencyMode';
+
 import { analyzeContext } from '@/lib/smartContextMode';
 
 export function FeatureTestPage() {
@@ -76,16 +76,6 @@ export function FeatureTestPage() {
         } catch {
           return false;
         }
-      }
-    },
-    {
-      name: 'Emergency Detection',
-      description: 'Life-saving alerts for danger signs with instant notifications',
-      icon: Zap,
-      color: 'text-red-600',
-      test: async () => {
-        const result = detectEmergencyTerms('खतरा danger');
-        return result.length > 0 && result[0].severity === 'critical';
       }
     },
     {

@@ -37,7 +37,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       page: 'camera'
     },
     {
-      title: "Multi-Language AR",
+      title: "Enhanced Features",
       description: "Display multiple scripts simultaneously on images",
       icon: Eye,
       action: () => onNavigate('multi-ar'),
@@ -49,7 +49,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
   const features = [
     { icon: "🇮🇳", title: "10+ Scripts", desc: "All Indian languages" },
     { icon: "🧠", title: "AI Smart", desc: "Context understanding" },
-    { icon: "🚨", title: "Emergency", desc: "Life-saving alerts" },
+    { icon: "🔒", title: "Privacy", desc: "Secure processing" },
     { icon: "🎨", title: "Cultural", desc: "Regional themes" },
     { icon: "🔊", title: "TTS", desc: "Native voices" },
     { icon: "🔒", title: "Private", desc: "On-device only" }
@@ -61,19 +61,15 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-orange-100 via-white to-green-100 py-20 px-4">
         <div className="container mx-auto max-w-6xl text-center">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6">
+          <h1 className="text-6xl md:text-8xl font-bold mb-8">
             <span className="bg-gradient-to-r from-orange-600 via-red-500 to-green-600 bg-clip-text text-transparent">
-              भारत लिपि पुल
+              BharatLens
             </span>
           </h1>
           
-          <h2 className="text-3xl md:text-5xl font-semibold text-gray-800 mb-8">
-            Bharat Script Bridge
-          </h2>
-          
           <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
-            Revolutionary AI-powered transliteration system with multi-language AR overlay, 
-            emergency detection, and cultural sensitivity for seamless Indian script conversion.
+            Revolutionary AI-powered transliteration system with advanced features, 
+            advanced features, and secure processing for seamless Indian script conversion.
           </p>
           
           {/* Feature Highlights */}
@@ -153,7 +149,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-gray-800">
-              Why Bharat Script Bridge?
+              Why BharatLens?
             </h2>
             <p className="text-xl text-gray-600">
               The most advanced transliteration system for Indian languages
@@ -186,12 +182,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </Card>
             
             <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <Zap className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-3">Emergency Detection</h3>
-              <p className="text-gray-600">Life-saving alerts for danger signs with instant notifications</p>
-            </Card>
-            
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
               <Globe className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Offline Capable</h3>
               <p className="text-gray-600">Works perfectly without internet connection in rural areas</p>
@@ -207,7 +197,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             Ready to Bridge the Script Divide?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Join thousands of users who are already using Bharat Script Bridge 
+            Join thousands of users who are already using BharatLens 
             to navigate India's linguistic diversity
           </p>
           

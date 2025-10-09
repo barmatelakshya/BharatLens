@@ -17,14 +17,14 @@ export class SystemCore {
   async initialize(): Promise<void> {
     if (this.initialized) return;
 
-    console.log('Initializing Bharat Script Bridge System...');
+    console.log('Initializing BHARATLENS System...');
     
     // Initialize modules in dependency order
     const moduleOrder = [
       'scriptDetector',
       'ocrRunner', 
       'transliterationEngine',
-      'arOverlay',
+      'enhancedFeatures',
       'accessibility'
     ];
 
@@ -68,7 +68,7 @@ export class SystemCore {
 
   async processImage(imageData: ImageData, options: any = {}): Promise<any> {
     const ocrModule = this.modules.get('ocrRunner');
-    const arModule = this.modules.get('arOverlay');
+    const enhancedModule = this.modules.get('enhancedFeatures');
 
     if (!ocrModule || !arModule) {
       throw new Error('Required modules not available');
@@ -77,7 +77,7 @@ export class SystemCore {
     // OCR processing
     const ocrResult = await ocrModule.process(imageData);
     
-    // AR overlay processing
+    // Enhanced features processing
     const arResult = await arModule.process({
       image: imageData,
       textRegions: ocrResult.regions,

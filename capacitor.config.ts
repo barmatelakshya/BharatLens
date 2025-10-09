@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.bharatscriptbridge.app',
-  appName: 'Bharat Script Bridge',
+  appId: 'com.bharatlens.app',
+  appName: 'BharatLens',
   webDir: 'dist',
   plugins: {
     Camera: {

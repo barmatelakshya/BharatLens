@@ -2,7 +2,7 @@ import { SystemCore } from './SystemCore';
 import { ScriptDetectorModule } from './modules/ScriptDetectorModule';
 import { OCRRunnerModule } from './modules/OCRRunnerModule';
 import { TransliterationEngineModule } from './modules/TransliterationEngineModule';
-import { AROverlayModule } from './modules/AROverlayModule';
+
 import { AccessibilityModule } from './modules/AccessibilityModule';
 
 // Singleton system manager
@@ -28,7 +28,7 @@ export class SystemManager {
     this.systemCore.registerModule(new ScriptDetectorModule());
     this.systemCore.registerModule(new OCRRunnerModule());
     this.systemCore.registerModule(new TransliterationEngineModule());
-    this.systemCore.registerModule(new AROverlayModule());
+
     this.systemCore.registerModule(new AccessibilityModule());
   }
 
@@ -38,7 +38,7 @@ export class SystemManager {
     try {
       await this.systemCore.initialize();
       this.initialized = true;
-      console.log('🚀 Bharat Script Bridge System Ready');
+      console.log('🚀 BHARATLENS System Ready');
     } catch (error) {
       console.error('System initialization failed:', error);
       throw error;
@@ -77,8 +77,8 @@ export class SystemManager {
     
     const ocrResult = await ocrModule.process(imageFile);
     
-    // Process with AR overlay
-    const arModule = this.systemCore.getModule<AROverlayModule>('arOverlay');
+    // Process with enhanced features
+    const enhancedModule = this.systemCore.getModule('enhancedFeatures');
     if (!arModule) throw new Error('AR module not available');
     
     return await arModule.process({
@@ -140,7 +140,7 @@ export class SystemManager {
         scriptDetector: !!this.systemCore.getModule('scriptDetector'),
         ocrRunner: !!this.systemCore.getModule('ocrRunner'),
         transliterationEngine: !!this.systemCore.getModule('transliterationEngine'),
-        arOverlay: !!this.systemCore.getModule('arOverlay'),
+        enhancedFeatures: !!this.systemCore.getModule('enhancedFeatures'),
         accessibility: !!this.systemCore.getModule('accessibility')
       },
       timestamp: new Date().toISOString()

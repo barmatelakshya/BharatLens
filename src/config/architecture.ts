@@ -29,7 +29,7 @@ export const ARCHITECTURE_CONFIG = {
       ruleFormat: 'json',
       versioning: true
     },
-    arOverlay: {
+
       textDetection: true,
       perspectiveCorrection: true,
       fontMatching: true,

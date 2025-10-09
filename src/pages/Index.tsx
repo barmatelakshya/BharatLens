@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Camera, Type, ArrowRightLeft, Copy, Check, Download, Share, Eye, Zap } from "lucide-react";
+import { Camera, Type, ArrowRightLeft, Copy, Check, Download, Share, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +11,6 @@ import { SCRIPT_INVENTORY } from "@/data/scriptInventory";
 import { HomeScreen } from "@/components/HomeScreen";
 import { CameraCapture } from "@/components/CameraCapture";
 import { TTSControls, QuickTTSButton } from "@/components/TTSControls";
-import { MultiLanguageAROverlay } from "@/components/MultiLanguageAROverlay";
 import { EnhancedFeaturesPanel } from "@/components/EnhancedFeaturesPanel";
 import { verifyAllFeatures } from "@/lib/featureVerification";
 import { ttsEngine } from "@/lib/enhancedTTS";
@@ -36,7 +35,7 @@ const Index = () => {
     const verification = verifyAllFeatures();
     
     ttsEngine.initialize().then(() => {
-      toast.success("🔊 Bharat Script Bridge Ready!");
+      toast.success("🔊 BHARATLENS Ready!");
     }).catch(() => {
       toast.warning("TTS not available on this device");
     });
@@ -54,7 +53,7 @@ const Index = () => {
         setActiveTab('camera');
         break;
       case 'upload':
-        setActiveTab('multilang-ar');
+        setActiveTab('enhanced');
         break;
       case 'text':
         setActiveTab('text');
@@ -143,52 +142,53 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-orange-50/30 to-green-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-green-500 text-white py-4 px-4">
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white py-6 px-4 shadow-xl">
         <div className="container mx-auto max-w-6xl flex items-center justify-between">
           <Button
             variant="ghost"
             onClick={() => setCurrentView('home')}
-            className="text-white hover:bg-white/20"
+            className="text-white hover:bg-white/20 font-medium"
           >
             ← Back to Home
           </Button>
-          <h1 className="text-2xl font-bold">भारत लिपि पुल</h1>
-          <Badge className="bg-white/20 text-white">SIH 2024</Badge>
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-blue-600 font-black text-xl shadow-lg">
+              BL
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-100 bg-clip-text text-transparent">BHARATLEANS</h1>
+          </div>
+          <Badge className="bg-white/20 text-white border-white/30 font-medium">Professional</Badge>
         </div>
       </div>
 
       {/* Main Application */}
       <div className="container mx-auto max-w-7xl px-4 py-8">
-        <Card className="shadow-2xl border-2 border-orange-200">
-          <CardHeader className="text-center border-b bg-gradient-to-r from-orange-50 to-green-50 py-6">
-            <CardTitle className="text-2xl md:text-3xl font-bold">
-              Professional Transliteration System
+        <Card className="shadow-2xl border-0 bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-lg">
+          <CardHeader className="text-center border-b bg-gradient-to-r from-indigo-50/80 to-purple-50/80 py-10">
+            <CardTitle className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 bg-clip-text text-transparent mb-4">
+              Advanced Transliteration Platform
             </CardTitle>
-            <CardDescription className="text-lg mt-2">
-              Advanced AI-powered transliteration with cultural sensitivity
+            <CardDescription className="text-xl mt-4 text-gray-600 max-w-3xl mx-auto font-light">
+              Enterprise-grade AI-powered script conversion with real-time processing
             </CardDescription>
           </CardHeader>
           
           <CardContent className="p-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-4 mb-6">
-                <TabsTrigger value="text" className="flex items-center gap-2">
+              <TabsList className="grid w-full grid-cols-3 mb-8 bg-gray-100 p-1 rounded-xl">
+                <TabsTrigger value="text" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm font-medium">
                   <Type className="h-4 w-4" />
                   Text Input
                 </TabsTrigger>
-                <TabsTrigger value="camera" className="flex items-center gap-2">
+                <TabsTrigger value="camera" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm font-medium">
                   <Camera className="h-4 w-4" />
                   Camera OCR
                 </TabsTrigger>
-                <TabsTrigger value="multilang-ar" className="flex items-center gap-2">
-                  <Eye className="h-4 w-4" />
-                  Multi-Lang AR
-                </TabsTrigger>
-                <TabsTrigger value="enhanced" className="flex items-center gap-2">
+                <TabsTrigger value="enhanced" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm font-medium">
                   <Zap className="h-4 w-4" />
-                  SIH Features
+                  Advanced Features
                 </TabsTrigger>
               </TabsList>
 
@@ -244,12 +244,12 @@ const Index = () => {
                       onClick={handleTransliterate}
                       disabled={isTransliterating}
                       size="lg"
-                      className="px-8"
+                      className="px-12 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                     >
                       {isTransliterating ? (
-                        <Zap className="mr-2 h-4 w-4 animate-spin" />
+                        <Zap className="mr-2 h-5 w-5 animate-spin" />
                       ) : (
-                        <ArrowRightLeft className="mr-2 h-4 w-4" />
+                        <ArrowRightLeft className="mr-2 h-5 w-5" />
                       )}
                       {isTransliterating ? "Processing..." : "Transliterate"}
                     </Button>
@@ -296,15 +296,6 @@ const Index = () => {
               {/* Camera Tab */}
               <TabsContent value="camera" className="space-y-6">
                 <CameraCapture onCapture={handleCameraCapture} />
-              </TabsContent>
-
-              {/* Multi-Language AR Tab */}
-              <TabsContent value="multilang-ar" className="space-y-6">
-                <MultiLanguageAROverlay 
-                  onRegionsDetected={(regions) => {
-                    toast.success(`🎯 ${regions.length} regions processed for multi-language display`);
-                  }}
-                />
               </TabsContent>
 
               {/* Enhanced Features Tab */}

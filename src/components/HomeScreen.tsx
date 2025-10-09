@@ -30,83 +30,13 @@ const scripts = Object.entries(SCRIPT_INVENTORY).map(([key, info]) => ({
   label: info.name
 }));
 
-// Region detection based on common scripts
-const REGION_GREETINGS = {
-  punjab: {
-    scripts: ['gurmukhi'],
-    greeting: 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ! Welcome to Punjab',
-    description: 'Transliterate Gurmukhi signs across Punjab',
-    icon: '🌾'
-  },
-  tamil_nadu: {
-    scripts: ['tamil'],
-    greeting: 'வணக்கம்! Welcome to Tamil Nadu',
-    description: 'Transliterate Tamil signs across Tamil Nadu',
-    icon: '🏛️'
-  },
-  west_bengal: {
-    scripts: ['bengali'],
-    greeting: 'নমস্কার! Welcome to West Bengal',
-    description: 'Transliterate Bengali signs across West Bengal',
-    icon: '🐟'
-  },
-  kerala: {
-    scripts: ['malayalam'],
-    greeting: 'നമസ്കാരം! Welcome to Kerala',
-    description: 'Transliterate Malayalam signs across Kerala',
-    icon: '🥥'
-  },
-  karnataka: {
-    scripts: ['kannada'],
-    greeting: 'ನಮಸ್ಕಾರ! Welcome to Karnataka',
-    description: 'Transliterate Kannada signs across Karnataka',
-    icon: '🏰'
-  },
-  telangana: {
-    scripts: ['telugu'],
-    greeting: 'నమస్కారం! Welcome to Telangana',
-    description: 'Transliterate Telugu signs across Telangana',
-    icon: '💎'
-  },
-  gujarat: {
-    scripts: ['gujarati'],
-    greeting: 'નમસ્તે! Welcome to Gujarat',
-    description: 'Transliterate Gujarati signs across Gujarat',
-    icon: '🦁'
-  },
-  odisha: {
-    scripts: ['odia'],
-    greeting: 'ନମସ୍କାର! Welcome to Odisha',
-    description: 'Transliterate Odia signs across Odisha',
-    icon: '🏛️'
-  },
-  india: {
-    scripts: ['devanagari'],
-    greeting: 'नमस्ते! Welcome to Bharat',
-    description: 'Transliterate signs across India',
-    icon: '🇮🇳'
-  }
-};
-
 export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: HomeScreenProps) {
   const [sourceScript, setSourceScript] = useState('auto');
   const [targetScript, setTargetScript] = useState('devanagari');
-  const [currentRegion, setCurrentRegion] = useState(REGION_GREETINGS.india);
   const [toggles, setToggles] = useState({
     tts: true,
-    cultural: true,
-    emergency: false,
     offline: true
   });
-
-  useEffect(() => {
-    // Detect region based on target script
-    const region = Object.values(REGION_GREETINGS).find(r => 
-      r.scripts.includes(targetScript)
-    ) || REGION_GREETINGS.india;
-    
-    setCurrentRegion(region);
-  }, [targetScript]);
 
   const handleToggle = (toggleName: string, enabled: boolean) => {
     setToggles(prev => ({ ...prev, [toggleName]: enabled }));
@@ -114,8 +44,6 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
     
     const messages = {
       tts: `Text-to-Speech ${enabled ? 'enabled' : 'disabled'}`,
-      cultural: `Cultural Mode ${enabled ? 'enabled' : 'disabled'}`,
-      emergency: `Emergency Mode ${enabled ? 'ACTIVATED' : 'deactivated'}`,
       offline: `Offline Mode ${enabled ? 'enabled' : 'disabled'}`
     };
     
@@ -132,27 +60,40 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
-      {/* Header with Region-Aware Greeting */}
-      <div className="bg-gradient-to-r from-orange-500 to-green-500 text-white py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
+      {/* Header with Professional Gradient */}
+      <div className="bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 text-white py-16 px-4 shadow-2xl">
         <div className="container mx-auto max-w-4xl text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="text-4xl">{currentRegion.icon}</span>
-            <h1 className="text-3xl md:text-4xl font-bold">भारत लिपि पुल</h1>
-            <span className="text-4xl">{currentRegion.icon}</span>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <img 
+              alt="BHARATLENS Logo" 
+              className="w-16 h-16 object-contain bg-white/20 rounded-lg p-2"
+            />
+            <div className="flex items-center justify-center gap-6 mb-6">
+              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center text-blue-600 font-black text-3xl shadow-xl">
+                BL
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-white via-cyan-100 to-teal-100 bg-clip-text text-transparent">
+                BHARATLEANS
+              </h1>
+            </div>
+            <img 
+              alt="BHARATLENS Logo" 
+              className="w-16 h-16 object-contain bg-white/20 rounded-lg p-2"
+            />
           </div>
           
-          <h2 className="text-xl md:text-2xl font-semibold mb-2">
+          <h2 className="text-xl md:text-2xl font-medium mb-3 text-blue-100">
             {currentRegion.greeting}
           </h2>
           
-          <p className="text-lg opacity-90 mb-4">
-            {currentRegion.description}
+          <p className="text-xl opacity-90 mb-8 max-w-3xl mx-auto leading-relaxed font-light">
+            Advanced AI-Powered Script Transliteration Platform
           </p>
           
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 text-blue-200">
             <MapPin className="h-4 w-4" />
-            <span className="text-sm">Auto-detected region based on script selection</span>
+            <span className="text-sm">Intelligent region detection • Enterprise-grade accuracy</span>
           </div>
         </div>
       </div>
@@ -161,49 +102,55 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
         <div className="space-y-8">
           
           {/* Primary Action Buttons */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-center text-2xl">Choose Your Method</CardTitle>
+          <Card className="shadow-2xl border-0 bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-lg">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-center text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Choose Your Method</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
                 {/* Live Camera */}
                 <Button
                   onClick={() => onActionSelect('camera')}
-                  className="h-32 flex-col gap-4 text-lg bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+                  className="h-40 flex-col gap-4 text-lg bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 shadow-xl hover:shadow-2xl transition-all duration-500 border-0 transform hover:scale-105"
                   size="lg"
                 >
-                  <Camera className="h-12 w-12" />
+                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-2 shadow-lg">
+                    <Camera className="h-10 w-10" />
+                  </div>
                   <div className="text-center">
-                    <div className="font-bold">📷 Live Camera</div>
-                    <div className="text-sm opacity-90">Real-time transliteration</div>
+                    <div className="font-bold text-lg">Live Camera</div>
+                    <div className="text-sm opacity-90 mt-2">Real-time processing</div>
                   </div>
                 </Button>
 
                 {/* Image Upload */}
                 <Button
                   onClick={() => onActionSelect('upload')}
-                  className="h-32 flex-col gap-4 text-lg bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
+                  className="h-40 flex-col gap-4 text-lg bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700 hover:from-cyan-600 hover:via-cyan-700 hover:to-cyan-800 shadow-xl hover:shadow-2xl transition-all duration-500 border-0 transform hover:scale-105"
                   size="lg"
                 >
-                  <Upload className="h-12 w-12" />
+                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-2 shadow-lg">
+                    <Upload className="h-10 w-10" />
+                  </div>
                   <div className="text-center">
-                    <div className="font-bold">🖼️ Image Upload</div>
-                    <div className="text-sm opacity-90">Upload signboard photos</div>
+                    <div className="font-bold text-lg">Image Upload</div>
+                    <div className="text-sm opacity-90 mt-2">Batch processing</div>
                   </div>
                 </Button>
 
                 {/* Text Input */}
                 <Button
                   onClick={() => onActionSelect('text')}
-                  className="h-32 flex-col gap-4 text-lg bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+                  className="h-40 flex-col gap-4 text-lg bg-gradient-to-br from-teal-500 via-teal-600 to-teal-700 hover:from-teal-600 hover:via-teal-700 hover:to-teal-800 shadow-xl hover:shadow-2xl transition-all duration-500 border-0 transform hover:scale-105"
                   size="lg"
                 >
-                  <Type className="h-12 w-12" />
+                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-2 shadow-lg">
+                    <Type className="h-10 w-10" />
+                  </div>
                   <div className="text-center">
-                    <div className="font-bold">📝 Text Input</div>
-                    <div className="text-sm opacity-90">Type or paste text</div>
+                    <div className="font-bold text-lg">Text Input</div>
+                    <div className="text-sm opacity-90 mt-2">Direct typing</div>
                   </div>
                 </Button>
               </div>
@@ -211,33 +158,37 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
           </Card>
 
           {/* Script Selector */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="h-5 w-5 text-yellow-500" />
+          <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-gray-800">
+                <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
+                  <Zap className="h-4 w-4 text-white" />
+                </div>
                 Script Configuration
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 {/* Source Script */}
                 <div className="space-y-3">
-                  <label className="text-sm font-medium">Source Script</label>
+                  <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Source Script</label>
                   <Select value={sourceScript} onValueChange={(value) => handleScriptChange('source', value)}>
-                    <SelectTrigger className="h-12">
+                    <SelectTrigger className="h-14 border-2 border-gray-200 hover:border-blue-300 transition-colors">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="auto">
-                        <div className="flex items-center gap-2">
-                          <Zap className="h-4 w-4 text-yellow-500" />
-                          Auto-detect script
+                        <div className="flex items-center gap-3 py-1">
+                          <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded flex items-center justify-center">
+                            <Zap className="h-3 w-3 text-white" />
+                          </div>
+                          <span className="font-medium">Auto-detect script</span>
                         </div>
                       </SelectItem>
                       {scripts.map((script) => (
                         <SelectItem key={script.value} value={script.value}>
-                          {script.label}
+                          <span className="font-medium">{script.label}</span>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -246,15 +197,15 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
 
                 {/* Target Script */}
                 <div className="space-y-3">
-                  <label className="text-sm font-medium">Target Script</label>
+                  <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Target Script</label>
                   <Select value={targetScript} onValueChange={(value) => handleScriptChange('target', value)}>
-                    <SelectTrigger className="h-12">
+                    <SelectTrigger className="h-14 border-2 border-gray-200 hover:border-blue-300 transition-colors">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {scripts.map((script) => (
                         <SelectItem key={script.value} value={script.value}>
-                          {script.label}
+                          <span className="font-medium">{script.label}</span>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -263,15 +214,15 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
               </div>
 
               {/* Script Preview */}
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                <div className="text-sm text-gray-600 mb-2">Preview:</div>
-                <div className="text-lg">
+              <div className="mt-6 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+                <div className="text-sm font-semibold text-gray-600 mb-3 uppercase tracking-wide">Preview:</div>
+                <div className="text-lg font-medium">
                   {sourceScript === 'auto' ? (
-                    <span className="text-yellow-600">Auto-detect → </span>
+                    <span className="text-amber-600 font-semibold">Auto-detect → </span>
                   ) : (
-                    <span>{SCRIPT_INVENTORY[sourceScript]?.name} → </span>
+                    <span className="text-gray-700">{SCRIPT_INVENTORY[sourceScript]?.name} → </span>
                   )}
-                  <span className="font-semibold text-blue-600">
+                  <span className="font-bold text-blue-700">
                     {SCRIPT_INVENTORY[targetScript]?.name}
                   </span>
                 </div>
@@ -285,7 +236,7 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
               <CardTitle>Quick Settings</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* TTS Toggle */}
                 <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -299,36 +250,6 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
                   <Switch
                     checked={toggles.tts}
                     onCheckedChange={(checked) => handleToggle('tts', checked)}
-                  />
-                </div>
-
-                {/* Cultural Mode Toggle */}
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <Palette className="h-5 w-5 text-purple-500" />
-                    <div>
-                      <div className="font-medium text-sm">🎨 Cultural</div>
-                      <div className="text-xs text-gray-600">Regional themes</div>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={toggles.cultural}
-                    onCheckedChange={(checked) => handleToggle('cultural', checked)}
-                  />
-                </div>
-
-                {/* Emergency Mode Toggle */}
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <AlertTriangle className="h-5 w-5 text-red-500" />
-                    <div>
-                      <div className="font-medium text-sm">🚨 Emergency</div>
-                      <div className="text-xs text-gray-600">Critical alerts</div>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={toggles.emergency}
-                    onCheckedChange={(checked) => handleToggle('emergency', checked)}
                   />
                 </div>
 
@@ -351,39 +272,8 @@ export function HomeScreen({ onActionSelect, onScriptChange, onToggleChange }: H
                   />
                 </div>
               </div>
-
-              {/* Active Features Display */}
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                <div className="text-sm font-medium text-blue-800 mb-2">Active Features:</div>
-                <div className="flex flex-wrap gap-2">
-                  {toggles.tts && <Badge className="bg-blue-100 text-blue-800">🔊 TTS Enabled</Badge>}
-                  {toggles.cultural && <Badge className="bg-purple-100 text-purple-800">🎨 Cultural Mode</Badge>}
-                  {toggles.emergency && <Badge className="bg-red-100 text-red-800">🚨 Emergency Active</Badge>}
-                  {toggles.offline && <Badge className="bg-green-100 text-green-800">🌐 Offline Ready</Badge>}
-                </div>
-              </div>
             </CardContent>
           </Card>
-
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="text-center p-4">
-              <div className="text-2xl font-bold text-blue-600">10+</div>
-              <div className="text-sm text-gray-600">Scripts Supported</div>
-            </Card>
-            <Card className="text-center p-4">
-              <div className="text-2xl font-bold text-green-600">100%</div>
-              <div className="text-sm text-gray-600">Offline Capable</div>
-            </Card>
-            <Card className="text-center p-4">
-              <div className="text-2xl font-bold text-purple-600">AI</div>
-              <div className="text-sm text-gray-600">Smart Context</div>
-            </Card>
-            <Card className="text-center p-4">
-              <div className="text-2xl font-bold text-orange-600">AR</div>
-              <div className="text-sm text-gray-600">Multi-Language</div>
-            </Card>
-          </div>
         </div>
       </div>
     </div>

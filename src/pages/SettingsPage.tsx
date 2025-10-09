@@ -36,15 +36,15 @@ export function SettingsPage() {
       dataCollection: false,
       analytics: false
     },
-    cultural: {
+    enhanced: {
       enabled: true,
       region: 'auto',
-      theme: 'traditional'
+      theme: 'professional'
     },
-    emergency: {
-      enabled: false,
-      vibration: true,
-      sound: true
+    enhanced: {
+      enabled: true,
+      region: 'auto',
+      theme: 'professional'
     },
     general: {
       language: 'english',
@@ -67,17 +67,16 @@ export function SettingsPage() {
   const resetSettings = () => {
     setSettings({
       tts: { enabled: true, voice: 'hindi-female', speed: [1.0], pitch: [1.0] },
-      ar: { enabled: true, opacity: [0.8], displayMode: 'overlay' },
+      enhanced: { enabled: true, opacity: [0.8], displayMode: 'overlay' },
       privacy: { offlineMode: true, dataCollection: false, analytics: false },
-      cultural: { enabled: true, region: 'auto', theme: 'traditional' },
-      emergency: { enabled: false, vibration: true, sound: true },
+      enhanced: { enabled: true, region: 'auto', theme: 'professional' },
       general: { language: 'english', notifications: true, autoSave: true }
     });
     toast.success('Settings reset to defaults');
   };
 
   const saveSettings = () => {
-    localStorage.setItem('bharatScriptBridge_settings', JSON.stringify(settings));
+    localStorage.setItem('bharatlens_settings', JSON.stringify(settings));
     toast.success('Settings saved successfully');
   };
 
@@ -94,7 +93,7 @@ export function SettingsPage() {
             </h1>
           </div>
           <p className="text-xl text-gray-600">
-            Customize your Bharat Script Bridge experience
+            Customize your BHARATLENS experience
           </p>
         </div>
 
@@ -156,60 +155,6 @@ export function SettingsPage() {
             </CardContent>
           </Card>
 
-          {/* AR Overlay Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Eye className="h-5 w-5 text-purple-600" />
-                AR Overlay
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">Enable AR Overlay</div>
-                  <div className="text-sm text-gray-600">Multi-language display on images</div>
-                </div>
-                <Switch
-                  checked={settings.ar.enabled}
-                  onCheckedChange={(checked) => updateSetting('ar', 'enabled', checked)}
-                />
-              </div>
-              
-              {settings.ar.enabled && (
-                <>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Display Mode</label>
-                    <Select 
-                      value={settings.ar.displayMode} 
-                      onValueChange={(value) => updateSetting('ar', 'displayMode', value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="overlay">Overlay Mode</SelectItem>
-                        <SelectItem value="stacked">Stacked Mode</SelectItem>
-                        <SelectItem value="swipe">Swipe Mode</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Overlay Opacity: {Math.round(settings.ar.opacity[0] * 100)}%</label>
-                    <Slider
-                      value={settings.ar.opacity}
-                      onValueChange={(value) => updateSetting('ar', 'opacity', value)}
-                      max={1}
-                      min={0.3}
-                      step={0.1}
-                    />
-                  </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
-
           {/* Privacy Settings */}
           <Card>
             <CardHeader>
@@ -243,97 +188,6 @@ export function SettingsPage() {
                   onCheckedChange={(checked) => updateSetting('privacy', 'dataCollection', checked)}
                 />
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Cultural Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Palette className="h-5 w-5 text-pink-600" />
-                Cultural Preferences
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">Cultural Mode</div>
-                  <div className="text-sm text-gray-600">Regional themes and motifs</div>
-                </div>
-                <Switch
-                  checked={settings.cultural.enabled}
-                  onCheckedChange={(checked) => updateSetting('cultural', 'enabled', checked)}
-                />
-              </div>
-              
-              {settings.cultural.enabled && (
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Region</label>
-                  <Select 
-                    value={settings.cultural.region} 
-                    onValueChange={(value) => updateSetting('cultural', 'region', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="auto">Auto-detect</SelectItem>
-                      <SelectItem value="north">North India</SelectItem>
-                      <SelectItem value="south">South India</SelectItem>
-                      <SelectItem value="west">West India</SelectItem>
-                      <SelectItem value="east">East India</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Emergency Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-red-600" />
-                Emergency Detection
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">Emergency Mode</div>
-                  <div className="text-sm text-gray-600">Detect danger signs and alert</div>
-                </div>
-                <Switch
-                  checked={settings.emergency.enabled}
-                  onCheckedChange={(checked) => updateSetting('emergency', 'enabled', checked)}
-                />
-              </div>
-              
-              {settings.emergency.enabled && (
-                <>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-medium">Vibration Alerts</div>
-                      <div className="text-sm text-gray-600">Vibrate on danger detection</div>
-                    </div>
-                    <Switch
-                      checked={settings.emergency.vibration}
-                      onCheckedChange={(checked) => updateSetting('emergency', 'vibration', checked)}
-                    />
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-medium">Sound Alerts</div>
-                      <div className="text-sm text-gray-600">Audio warning for emergencies</div>
-                    </div>
-                    <Switch
-                      checked={settings.emergency.sound}
-                      onCheckedChange={(checked) => updateSetting('emergency', 'sound', checked)}
-                    />
-                  </div>
-                </>
-              )}
             </CardContent>
           </Card>
 

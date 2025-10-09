@@ -10,7 +10,7 @@ import { AboutPage } from "@/pages/AboutPage";
 import { SettingsPage } from "@/pages/SettingsPage";
 import { FeatureTestPage } from "@/pages/FeatureTestPage";
 import { CameraCapture } from "@/components/CameraCapture";
-import { MultiLanguageAROverlay } from "@/components/MultiLanguageAROverlay";
+
 import { EnhancedFeaturesPanel } from "@/components/EnhancedFeaturesPanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -70,18 +70,12 @@ const App = () => {
             <div className="container mx-auto max-w-6xl px-4">
               <div className="text-center mb-8">
                 <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  Multi-Language AR Overlay
+                  Enhanced Features
                 </h1>
                 <p className="text-xl text-gray-600">
-                  Display multiple scripts simultaneously on signboards
+                  Advanced transliteration capabilities
                 </p>
               </div>
-              
-              <MultiLanguageAROverlay 
-                onRegionsDetected={(regions) => {
-                  toast.success(`🎯 ${regions.length} regions processed for multi-language display`);
-                }}
-              />
             </div>
           </div>
         );

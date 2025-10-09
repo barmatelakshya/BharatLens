@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Bharat Script Bridge</string>
-    <string name="title_activity_main">Bharat Script Bridge</string>
-    <string name="package_name">com.bharatscriptbridge.app</string>
-    <string name="custom_url_scheme">com.bharatscriptbridge.app</string>
+    <string name="app_name">BharatLens</string>
+    <string name="title_activity_main">BharatLens</string>
+    <string name="package_name">com.bharatlens.app</string>
+    <string name="custom_url_scheme">com.bharatlens.app</string>
 </resources>

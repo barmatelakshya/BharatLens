@@ -35,10 +35,10 @@ export const NON_NEGOTIABLE_FEATURES: Record<string, FeatureStatus> = {
   realTimeOCR: {
     implemented: true,
     tested: true,
-    description: "Text extraction from images using Tesseract.js with Indian language models",
+    description: "Text extraction from images using advanced OCR with Indian language models",
     components: [
       "OCRRunnerModule",
-      "Tesseract.js integration",
+      "Advanced OCR integration",
       "Indian language models (hin+ben+tam+tel+kan+mal+guj+pan+ori)",
       "Image preprocessing",
       "Post-correction algorithms"
@@ -53,30 +53,17 @@ export const NON_NEGOTIABLE_FEATURES: Record<string, FeatureStatus> = {
       "EnhancedTransliterationEngine",
       "Phonemic mapping (ISO 15919)",
       "OrthographyEngine (schwa rules, conjuncts)",
-      "Sanscript.js integration",
+      "Advanced transliteration engine",
       "Validation & round-trip testing"
-    ]
-  },
-  
-  arOverlay: {
-    implemented: true,
-    tested: true,
-    description: "Real-time AR overlay replacing detected text with transliterated output",
-    components: [
-      "AROverlayModule",
-      "Text region detection",
-      "Perspective correction",
-      "Font matching",
-      "Contrast-aware rendering"
     ]
   },
   
   offlineFirst: {
     implemented: true,
     tested: true,
-    description: "Complete offline functionality with PWA and local processing",
+    description: "Complete offline functionality with progressive web app and local processing",
     components: [
-      "PWA configuration",
+      "Progressive web app configuration",
       "Service Worker",
       "Local data storage",
       "On-device processing",
@@ -138,7 +125,7 @@ export function verifyAllFeatures(): {
 export function generateFeatureReport(): string {
   const verification = verifyAllFeatures();
   
-  let report = `# Bharat Script Bridge - Feature Verification Report\n\n`;
+  let report = `# BHARATLENS - Feature Verification Report\n\n`;
   report += `## Summary\n`;
   report += `- **Total Features**: ${verification.totalFeatures}\n`;
   report += `- **Implemented**: ${verification.implementedFeatures}\n`;
